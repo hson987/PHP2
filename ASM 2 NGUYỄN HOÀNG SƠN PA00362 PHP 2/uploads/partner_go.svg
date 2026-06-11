@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100" viewBox="0 0 200 100">
+  <rect width="200" height="100" fill="#ffffff" rx="12"/>
+  <!-- GO! red bold logo with green exclamation mark or stylized bubble -->
+  <g transform="translate(30, 15)">
+    <!-- Red oval/background bubble -->
+    <rect x="10" y="10" width="120" height="50" rx="25" fill="#e30613"/>
+    <!-- GO! text inside -->
+    <text x="70" y="46" font-family="'Arial Black', 'Impact', sans-serif" font-weight="900" font-size="36" fill="#ffffff" text-anchor="middle" letter-spacing="1">GO!</text>
+  </g>
+</svg>

@@ -1,0 +1,2 @@
+# Chặn truy cập trực tiếp vào các file giao diện (.blade.php)
+Deny from all

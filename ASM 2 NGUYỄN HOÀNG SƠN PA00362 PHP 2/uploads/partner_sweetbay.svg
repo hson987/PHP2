@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100" viewBox="0 0 200 100">
+  <rect width="200" height="100" fill="#ffffff" rx="12"/>
+  <!-- Fruit Bowl / Basket Logo -->
+  <g transform="translate(25, 12)">
+    <!-- Red apple/tomato -->
+    <circle cx="65" cy="30" r="14" fill="#d32f2f"/>
+    <!-- Yellow citrus -->
+    <circle cx="85" cy="34" r="12" fill="#fbc02d"/>
+    <!-- Green leaf/pepper -->
+    <path d="M 50,32 C 45,20 60,18 65,30 Z" fill="#388e3c"/>
+    <path d="M 85,22 C 95,22 90,34 85,34 Z" fill="#2e7d32"/>
+    <!-- Basket line -->
+    <path d="M 45,35 Q 75,55 105,35" fill="none" stroke="#8d6e63" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <!-- Text -->
+  <text x="100" y="70" font-family="'Georgia', 'Times New Roman', serif" font-weight="bold" font-size="20" fill="#283593" text-anchor="middle" font-style="italic">Sweetbay</text>
+  <text x="100" y="84" font-family="'Arial', sans-serif" font-weight="900" font-size="8" fill="#d32f2f" text-anchor="middle" letter-spacing="3">SUPERMARKET</text>
+</svg>

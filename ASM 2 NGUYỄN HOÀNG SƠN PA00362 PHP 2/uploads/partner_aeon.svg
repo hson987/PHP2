@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100" viewBox="0 0 200 100">
+  <rect width="200" height="100" fill="#ffffff" rx="12"/>
+  <g transform="translate(15, 20)">
+    <!-- AEON Logo stylized text -->
+    <text x="85" y="48" font-family="'Century Gothic', 'Arial', sans-serif" font-weight="bold" font-size="44" fill="#a41f67" font-style="italic" letter-spacing="2">AEON</text>
+    <!-- Stylized line or swoosh if needed, or keeping it clean -->
+  </g>
+</svg>
