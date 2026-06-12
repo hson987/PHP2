@@ -27,7 +27,7 @@
     </div>
 
     <!-- Admin Sub-navigation Menu -->
-    <div class="flex border-b border-slate-200 gap-6 text-xs font-bold pt-2">
+    <div class="flex border-b border-slate-200 gap-6 text-xs font-bold pt-2 overflow-x-auto whitespace-nowrap">
         <a href="{{ BASE_URL }}/admin/products" class="border-b-2 border-emerald-500 pb-3 text-emerald-600 flex items-center gap-2">
             <i class="fa-solid fa-boxes-stacked"></i> QUẢN LÝ SẢN PHẨM
         </a>
@@ -39,6 +39,9 @@
         </a>
         <a href="{{ BASE_URL }}/admin/categories" class="text-slate-400 hover:text-emerald-600 pb-3 flex items-center gap-2 transition">
             <i class="fa-solid fa-tags"></i> QUẢN LÝ DANH MỤC
+        </a>
+        <a href="{{ BASE_URL }}/admin/users" class="text-slate-400 hover:text-emerald-600 pb-3 flex items-center gap-2 transition">
+            <i class="fa-solid fa-user-shield"></i> QUẢN LÝ TÀI KHOẢN
         </a>
     </div>
 

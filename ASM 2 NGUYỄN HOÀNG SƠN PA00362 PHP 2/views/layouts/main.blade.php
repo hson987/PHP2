@@ -89,6 +89,9 @@
                             <a href="{{ BASE_URL }}/admin/categories" class="text-xs font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 border border-indigo-100 hover:bg-indigo-100 px-2 py-1 rounded-lg transition flex items-center gap-1">
                                 <i class="fa-solid fa-tags"></i> Quản lý Danh mục
                             </a>
+                            <a href="{{ BASE_URL }}/admin/users" class="text-xs font-bold text-purple-600 hover:text-purple-700 bg-purple-50 border border-purple-100 hover:bg-purple-100 px-2 py-1 rounded-lg transition flex items-center gap-1">
+                                <i class="fa-solid fa-user-shield"></i> Quản lý Tài khoản
+                            </a>
                             <a href="{{ BASE_URL }}/logout" class="text-xs font-bold text-rose-600 hover:text-rose-700 transition flex items-center gap-1">
                                 <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
                             </a>

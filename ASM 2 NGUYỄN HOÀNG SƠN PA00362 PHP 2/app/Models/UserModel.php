@@ -81,6 +81,35 @@ class UserModel extends Model {
         }
     }
 
+    // Lấy toàn bộ danh sách tài khoản
+    public function getAllUsers() {
+        $stmt = $this->db->prepare("SELECT * FROM users ORDER BY id DESC");
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    // Cập nhật thông tin tài khoản (hỗ trợ đổi mật khẩu tùy chọn và vai trò)
+    public function updateUser($id, $fullname, $email, $role, $password = null) {
+        if ($password !== null && $password !== '') {
+            $stmt = $this->db->prepare("UPDATE users SET fullname = :fullname, email = :email, role = :role, password = :password WHERE id = :id");
+            return $stmt->execute([
+                'fullname' => $fullname,
+                'email' => $email,
+                'role' => $role,
+                'password' => $password,
+                'id' => $id
+            ]);
+        } else {
+            $stmt = $this->db->prepare("UPDATE users SET fullname = :fullname, email = :email, role = :role WHERE id = :id");
+            return $stmt->execute([
+                'fullname' => $fullname,
+                'email' => $email,
+                'role' => $role,
+                'id' => $id
+            ]);
+        }
+    }
+
     // Xóa nhân viên/người dùng
     public function deleteUser($id) {
         $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");

@@ -612,4 +612,151 @@ class AdminController extends Controller {
         header('Location: ' . BASE_URL . '/admin/categories');
         exit;
     }
+
+    // ===== CRUD TÀI KHOẢN (USER/ACCOUNT CRUD) =====
+
+    // Danh sách tài khoản
+    public function listUsers() {
+        $users = $this->userModel->getAllUsers();
+        $totalUsers = count($users);
+
+        // Đếm các loại vai trò
+        $adminCount = 0;
+        $staffCount = 0;
+        $customerCount = 0;
+
+        foreach ($users as $u) {
+            if ($u['role'] === 'admin') {
+                $adminCount++;
+            } elseif ($u['role'] === 'staff') {
+                $staffCount++;
+            } else {
+                $customerCount++;
+            }
+        }
+
+        $this->render('backend.users.index', [
+            'users' => $users,
+            'totalUsers' => $totalUsers,
+            'adminCount' => $adminCount,
+            'staffCount' => $staffCount,
+            'customerCount' => $customerCount
+        ]);
+    }
+
+    // Thêm tài khoản mới
+    public function addUser() {
+        $error = '';
+        $success = '';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $fullname = trim($_POST['fullname'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $password = $_POST['password'] ?? '';
+            $role = trim($_POST['role'] ?? 'user');
+
+            if ($fullname === '' || $email === '' || $password === '') {
+                $error = 'Vui lòng điền đầy đủ các thông tin!';
+            } elseif (strlen($password) < 6) {
+                $error = 'Mật khẩu phải chứa ít nhất 6 ký tự!';
+            } elseif (!in_array($role, ['user', 'staff', 'admin'])) {
+                $error = 'Vai trò người dùng không hợp lệ!';
+            } else {
+                $existing = $this->userModel->getUserByEmail($email);
+                if ($existing) {
+                    $error = 'Email này đã tồn tại trong hệ thống!';
+                } else {
+                    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                    $result = $this->userModel->createUser($fullname, $email, $hashedPassword, $role);
+                    if ($result) {
+                        $_SESSION['admin_success'] = 'Đã thêm tài khoản mới "' . htmlspecialchars($fullname) . '" thành công!';
+                        header('Location: ' . BASE_URL . '/admin/users');
+                        exit;
+                    } else {
+                        $error = 'Có lỗi xảy ra khi tạo tài khoản, vui lòng thử lại!';
+                    }
+                }
+            }
+        }
+
+        $this->render('backend.users.create', [
+            'error' => $error,
+            'success' => $success
+        ]);
+    }
+
+    // Chỉnh sửa tài khoản
+    public function editUser($id) {
+        $user = $this->userModel->getUserById($id);
+        if (!$user) {
+            header('Location: ' . BASE_URL . '/admin/users');
+            exit;
+        }
+
+        $error = '';
+        $success = '';
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $fullname = trim($_POST['fullname'] ?? '');
+            $email = trim($_POST['email'] ?? '');
+            $password = $_POST['password'] ?? '';
+            $role = trim($_POST['role'] ?? 'user');
+
+            if ($fullname === '' || $email === '') {
+                $error = 'Vui lòng điền đầy đủ các thông tin!';
+            } elseif (!in_array($role, ['user', 'staff', 'admin'])) {
+                $error = 'Vai trò không hợp lệ!';
+            } else {
+                $existing = $this->userModel->getUserByEmail($email);
+                if ($existing && $existing['id'] != $id) {
+                    $error = 'Email này đã tồn tại ở một tài khoản khác!';
+                } else {
+                    $hashedPassword = null;
+                    if ($password !== '') {
+                        if (strlen($password) < 6) {
+                            $error = 'Mật khẩu mới phải chứa ít nhất 6 ký tự!';
+                        } else {
+                            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                        }
+                    }
+
+                    if (empty($error)) {
+                        $result = $this->userModel->updateUser($id, $fullname, $email, $role, $hashedPassword);
+                        if ($result) {
+                            $_SESSION['admin_success'] = 'Đã cập nhật tài khoản "' . htmlspecialchars($fullname) . '" thành công!';
+                            header('Location: ' . BASE_URL . '/admin/users');
+                            exit;
+                        } else {
+                            $error = 'Có lỗi xảy ra khi cập nhật tài khoản!';
+                        }
+                    }
+                }
+            }
+        }
+
+        $this->render('backend.users.edit', [
+            'user' => $user,
+            'error' => $error,
+            'success' => $success
+        ]);
+    }
+
+    // Xóa tài khoản
+    public function deleteUser($id) {
+        $user = $this->userModel->getUserById($id);
+        if ($user) {
+            // Bảo vệ: Không cho phép tự xóa chính mình
+            $currentAdminId = $_SESSION['admin']['id'] ?? null;
+            if ($currentAdminId == $id) {
+                $_SESSION['admin_error'] = 'Bạn không thể tự xóa tài khoản quản trị đang đăng nhập của chính mình!';
+                header('Location: ' . BASE_URL . '/admin/users');
+                exit;
+            }
+
+            $this->userModel->deleteUser($id);
+            $_SESSION['admin_success'] = 'Đã xóa tài khoản "' . htmlspecialchars($user['fullname']) . '" thành công!';
+        }
+        header('Location: ' . BASE_URL . '/admin/users');
+        exit;
+    }
 }
