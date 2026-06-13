@@ -7,6 +7,18 @@ class Controller {
     protected $blade;
 
     public function __construct() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Chuẩn hóa Session dữ liệu người dùng thành mảng (tránh lỗi Cannot use object of type stdClass as array)
+        if (isset($_SESSION['user']) && is_object($_SESSION['user'])) {
+            $_SESSION['user'] = (array)$_SESSION['user'];
+        }
+        if (isset($_SESSION['admin']) && is_object($_SESSION['admin'])) {
+            $_SESSION['admin'] = (array)$_SESSION['admin'];
+        }
+
         $views = __DIR__ . '/../../views';
         $cache = __DIR__ . '/../../cache';
         
